@@ -23,5 +23,5 @@ export CC=gcc
 ./configure --prefix=$module_home/local/nodejs/$ver
 
 make
+make install
 
-# make install?
