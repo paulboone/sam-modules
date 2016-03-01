@@ -5,6 +5,8 @@
 #
 # Download node to ../src/
 
+set -ex
+
 ver=5.7.0
 module_home=$HOME/modules
 cd $module_home/src/node-v$ver
