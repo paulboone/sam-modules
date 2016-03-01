@@ -14,6 +14,8 @@ set submods [ split "$modfile" / ]
 set modfile_base [ lindex $submods [ expr [ llength $submods ] - 1 ] ]
 set ver $modfile_base
 
+eval set  [ array get env HOME ]
+
 # ======================================================================
 # Documentation
 # ======================================================================
