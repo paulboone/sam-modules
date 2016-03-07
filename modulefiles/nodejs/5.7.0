@@ -1,5 +1,10 @@
 #%Module
-
+#
+# IMPORTANT NOTE:
+#
+# This modulefile loads the binary RELATIVELY from the modulefile's base
+# directory.
+#
 # ======================================================================
 # Useful Local Variables
 # ======================================================================
@@ -13,8 +18,6 @@ set modfile [ module-info name ]
 set submods [ split "$modfile" / ]  
 set modfile_base [ lindex $submods [ expr [ llength $submods ] - 1 ] ]
 set ver $modfile_base
-
-eval set  [ array get env HOME ]
 
 # ======================================================================
 # Documentation
@@ -33,8 +36,21 @@ conflict nodejs
 # Local settings
 # ====================================================================
 
-# this is only sets a variable to be used in this modulefile
-set root "$HOME/modules/local/nodejs/$ver"
+# Calculate the path to the directory containing the nodejs installation.
+# In a typical path, say /ihome/cwilmer/pab135/modules/modulefiles/nodejs/5.7.0
+# cut off the /modulefiles/nodejs/5.7.0 by taking the # of characters in 
+# "/modulefiles/" (13) and adding it to the number of characters in $modfile
+# (which in our example is "nodejs/5.7.0" or 12) to get 25.
+
+set moddir $ModulesCurrentModulefile
+set modfile_length [ string length $modfile ]
+set moddir_length [ string length $moddir ]
+set modules_root_length [ expr $moddir_length - $modfile_length - 13 - 1]
+set modules_root [ string range $moddir 0 $modules_root_length ]
+puts stderr "Using path for module: $modules_root"
+
+set root "${modules_root}/local/nodejs/$ver"
+puts stderr "Using path for nodejs: $root"
 
 # ====================================================================
 # Add stuff to PATH, LD_LIBRARY_PATH, MANPATH, etc..
