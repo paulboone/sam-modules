@@ -1,0 +1,66 @@
+#%Module
+#
+# IMPORTANT NOTE:
+#
+# This modulefile loads the binary RELATIVELY from the modulefile's base
+# directory.
+#
+# ======================================================================
+# Useful Local Variables
+# ======================================================================
+
+#  $modfile      : This module's file path relative to modulefiles root
+#  $submods      : List of submodules
+#  $modfile_base : This module's plain file name 
+#  $ver          : Module version (same as $modfile_base for now)
+
+set modfile [ module-info name ] 
+set submods [ split "$modfile" / ]  
+set modfile_base [ lindex $submods [ expr [ llength $submods ] - 1 ] ]
+set ver $modfile_base
+
+# ======================================================================
+# Documentation
+# ======================================================================
+
+module-whatis "Python, version $ver"
+
+
+# ====================================================================
+# Dependencies
+# ====================================================================
+
+conflict python
+
+# ====================================================================
+# Local settings
+# ====================================================================
+
+# Calculate the path to the directory containing our installation.
+# In a typical path, say /ihome/cwilmer/pab135/modules/modulefiles/nodejs/5.7.0
+# cut off the /modulefiles/nodejs/5.7.0 by taking the # of characters in 
+# "/modulefiles/" (13) and adding it to the number of characters in $modfile
+# (which in our example is "nodejs/5.7.0" or 12) to get 25.
+
+set moddir $ModulesCurrentModulefile
+set modfile_length [ string length $modfile ]
+set moddir_length [ string length $moddir ]
+set modules_root_length [ expr $moddir_length - $modfile_length - 13 - 1]
+set modules_root [ string range $moddir 0 $modules_root_length ]
+puts stderr "Using path for module: $modules_root"
+
+set root "${modules_root}/local/python/$ver"
+puts stderr "Using path for python: $root"
+
+# ====================================================================
+# Add stuff to PATH, LD_LIBRARY_PATH, MANPATH, etc..
+# ====================================================================
+
+prepend-path PATH $root/bin
+prepend-path LD_LIBRARY_PATH $root/lib
+prepend-path MANPATH $root/share/man 
+
+# cmake find_* macros use this
+prepend-path CMAKE_PREFIX_PATH $root 
+
+
