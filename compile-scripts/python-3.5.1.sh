@@ -15,12 +15,11 @@
 set -ex
 
 ver=3.5.1
-module_home=$HOME/modules
-prefix=$module_home/local/python/$ver
-cd $module_home/src/Python-$ver
+prefix=$SAM_MODULES_HOME/local/python/$ver
+cd $SAM_MODULES_HOME/src/Python-$ver
 
 module purge
-module load binutils/2.23-gcc48-rhel
+module load binutils/2.25-gcc5.2.0
 
 # compile to local
 ./configure --prefix=$prefix
@@ -31,4 +30,4 @@ make install
 ## ghetto-patch python's ctype command so the broken ldconfig implementation gets wrapped
 ## should be deleted when we move to the slurm cluster.
 cd $prefix/lib/python3.5/ctypes/
-patch < $module_home/patches/python-$ver/ctypes_ldconfig.patch
+patch < $SAM_MODULES_HOME/patches/python-$ver/ctypes_ldconfig.patch
