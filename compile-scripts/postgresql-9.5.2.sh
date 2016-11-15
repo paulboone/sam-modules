@@ -10,12 +10,11 @@
 set -ex
 
 ver=9.5.2
-module_home=$HOME/modules
-prefix=$module_home/local/postgresql/$ver
-cd $module_home/src/postgresql-$ver
+prefix=$SAM_MODULES_HOME/local/postgresql/$ver
+cd $SAM_MODULES_HOME/src/postgresql-$ver
 
 module purge
-module load binutils/2.23-gcc48-rhel
+module load binutils/2.25-gcc5.2.0
 export CC=gcc
 
 # compile to local

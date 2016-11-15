@@ -8,19 +8,18 @@
 set -ex
 
 ver=5.7.0
-module_home=$HOME/modules
-cd $module_home/src/node-v$ver
+cd $SAM_MODULES_HOME/src/node-v$ver
 
 
 module purge
-module load python/anaconda-2.3.0-rhel
-module load binutils/2.23-gcc48-rhel
+module load python/3.5.1
+module load binutils/2.25-gcc5.2.0
 
 # next line is needed to prevent node.js compile from attempting to use cc
 export CC=gcc
 
 # compile to local
-./configure --prefix=$module_home/local/nodejs/$ver
+./configure --prefix=$SAM_MODULES_HOME/local/nodejs/$ver
 
 make
 make install

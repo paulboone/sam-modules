@@ -8,16 +8,14 @@
 set -ex
 
 ver=3.0.7
-module_home=$HOME/modules
-cd $module_home/src/redis-$ver
+cd $SAM_MODULES_HOME/src/redis-$ver
 
 
 module purge
-# module load python/anaconda-2.3.0-rhel
-module load binutils/2.23-gcc48-rhel
+module load binutils/2.25-gcc5.2.0
 export CC=gcc
 
 # compile to local
 make
-make PREFIX=$module_home/local/redis/$ver install
+make PREFIX=$SAM_MODULES_HOME/local/redis/$ver install
 
